@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <title>Story 8</title>
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+    </head>
+
+    <body>
+        <h1>Search Book</h1>
+        <input id="keyword" placeholder="Search by Title">
+
+        <table class="table table-bordered" style="border-color: #0c1625;">
+            <thead>
+                <tr>
+                    <th class="judul">Title</th>
+                    <th class="penulis">Autors</th>
+                    <th>Cover Image</th>
+                </tr>
+            </thead>
+
+            <tbody id="daftar_isi">
+            </tbody>
+        </table>
+
+        <script type="text/javascript">
+            $("#keyword").keyup(function(){
+                var keyword = $("#keyword").val();
+                console.log(keyword);
+
+                $.ajax({
+                    url: '/data?q=' + keyword,
+                    success: function(data) {
+                        var array_items = data.items;
+                        console.log(array_items);
+                        $("#daftar_isi").empty();
+
+                        
+
+                        for (i = 0; i < array_items.length; i++) {
+                            var judul = array_items[i].volumeInfo.title;
+                            var gambar = array_items[i].volumeInfo.imageLinks.smallThumbnail;
+                            var penulis = array_items[i].volumeInfo.authors;
+
+                            if(penulis === undefined){
+                                var penulis = "Unknown";
+                            }
+                            $("#daftar_isi").append("<tr><td class='judul'>" + judul + "</td><td class='penulis'>" + penulis + "</td><td><img src=" + gambar + "></td></tr>")
+                        }
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

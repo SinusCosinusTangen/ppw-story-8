@@ -1,0 +1,12 @@
+th {
+    background-color: #0c1625;
+    color: white;
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+.judul, .penulis{
+    max-width: 300px;
+}
